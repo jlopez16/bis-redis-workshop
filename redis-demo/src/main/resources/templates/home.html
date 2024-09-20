@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf Example</title>
+</head>
+<body>
+<h1 th:text="${message}"></h1>
+
+<form id="greetingForm">
+    <label for="name">Enter your name:</label>
+    <input type="text" id="name" name="name">
+    <button type="button" onclick="fetchGreeting()">Get Greeting</button>
+</form>
+
+<p id="greetingResult"></p>
+
+<h2>Stored Greetings:</h2>
+<ul id="greetingsList"></ul>
+
+<script>
+    function fetchGreeting() {
+        const name = document.getElementById('name').value;
+        fetch('/api/greeting?name=' + name)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('greetingResult').textContent = data;
+                fetchAllGreetings(); // Update the list after adding a new greeting
+            });
+    }
+
+    function fetchAllGreetings() {
+        fetch('/api/greetings')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('greetingsList');
+                list.innerHTML = '';
+                data.forEach(greeting => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = greeting.content;
+                    list.appendChild(listItem);
+                });
+            });
+    }
+
+    // Load the greetings when the page loads
+    window.onload = fetchAllGreetings;
+</script>
+</body>
+</html>

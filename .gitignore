@@ -1,0 +1,15 @@
+
+redis-demo/.mvn/wrapper/maven-wrapper.properties
+redis-demo/mvnw
+redis-demo/mvnw.cmd
+.idea/vcs.xml
+.idea/uiDesigner.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/jarRepositories.xml
+.idea/google-java-format.xml
+.idea/encodings.xml
+.idea/compiler.xml
+.idea/codeStyles/Project.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/bis-spring-boot-workshop.iml

@@ -13,3 +13,4 @@ redis-demo/mvnw.cmd
 .idea/codeStyles/Project.xml
 .idea/codeStyles/codeStyleConfig.xml
 .idea/bis-spring-boot-workshop.iml
+.idea/bis-redis-workshop.iml

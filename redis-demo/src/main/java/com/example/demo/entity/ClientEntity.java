@@ -1,19 +1,21 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
 public class ClientEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,9 +25,12 @@ public class ClientEntity implements Serializable {
     private Long clientId;
     private String clientName;
     private String clientLastName;
+    @OneToMany(
+            mappedBy = "client",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnoreProperties(value = "client", allowSetters = true)
+    private Set<AccountEntity> accounts = new HashSet<>();
 
-    public ClientEntity(String clientName, String clientLastName) {
-        this.clientName = clientName;
-        this.clientLastName = clientLastName;
-    }
 }

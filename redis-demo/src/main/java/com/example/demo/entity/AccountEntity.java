@@ -1,19 +1,23 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
 @ToString
 @Entity
+@Setter
+@NoArgsConstructor
 public class AccountEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1786544567L;
 
     @Id
@@ -21,6 +25,9 @@ public class AccountEntity implements Serializable {
     private Long accountId;
     private double balance;
     private String currency;
-    private Long clientId;
+    @JsonIgnoreProperties(value = "accounts")
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "client_id")
+    private ClientEntity client;
 
 }

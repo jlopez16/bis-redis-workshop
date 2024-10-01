@@ -37,4 +37,12 @@ public class AccountController {
         ModelResponse response = new ModelResponse(LocalDateTime.now(), account, "Success");
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ModelResponse> deleteAccount(@PathVariable("id") String accountId) {
+        log.info("Delete account {}", accountId);
+        accountService.deleteAccount(accountId);
+        ModelResponse response = new ModelResponse(LocalDateTime.now(), accountId, "Success");
+        return ResponseEntity.ok().body(response);
+    }
 }

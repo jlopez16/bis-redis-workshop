@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis-container
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --loglevel warning
+    networks:
+      - fusse
+  cassandra:
+    image: cassandra:4.1.7-jammy
+    container_name: cassandra-container
+    restart: always
+    ports:
+      - '9042:9042'
+    environment:
+      - CASSANDRA_CLUSTER_NAME=my-cluster
+      - CASSANDRA_DC=dc1
+      - CASSANDRA_RACK=rack1
+      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+    volumes:
+      - cassandra_data:/var/lib/cassandra  # Persistencia de datos
+    networks:
+      - fusse
+
+volumes:
+  cassandra_data:
+
+networks:
+  fusse:
+    driver: bridge

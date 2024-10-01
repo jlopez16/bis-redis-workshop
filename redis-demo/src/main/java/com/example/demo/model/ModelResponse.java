@@ -1,26 +1,16 @@
 package com.example.demo.model;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
+@Builder
+@ToString
 @Getter
-@Setter
-public class ModelResponse implements Serializable {
-
-    private LocalDateTime date;
-    private Object response;
-    private String message;
-
-    public ModelResponse(LocalDateTime date, Object response, String message) {
-        this.date = date;
-        this.response = response;
-        this.message = message;
-    }
-
+public class ModelResponse {
+    private LocalDateTime timestamp;
+    private Object data;
+    private String result;
 }

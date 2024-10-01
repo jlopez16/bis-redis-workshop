@@ -1,33 +1,47 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.AccountEntity;
+import com.example.demo.model.Account;
 import com.example.demo.model.ModelResponse;
 import com.example.demo.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @RestController
-@RequestMapping(path = "/v1/accounts")
+@RequestMapping(path = "/accounts")
 public class AccountController {
 
-    @Autowired
-    private AccountService service;
+    private static final Logger log = LoggerFactory.getLogger(AccountController.class);
+    private final AccountService accountService;
 
-    @GetMapping
-    private ResponseEntity<ModelResponse> findAll() {
-        Set<AccountEntity> accounts = service.getAllAccounts();
-        ModelResponse modelResponse = new ModelResponse(LocalDateTime.now(), accounts, "Success");
-        return ResponseEntity.ok().body(modelResponse);
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
-    @PostMapping
-    private ResponseEntity<ModelResponse> save(@RequestBody AccountEntity account) {
-        AccountEntity accountEntity = service.saveAccount(account);
-        ModelResponse modelResponse = new ModelResponse(LocalDateTime.now(), accountEntity, "Success");
-        return ResponseEntity.ok().body(modelResponse);
+    @GetMapping
+    public ResponseEntity<ModelResponse> getAccounts() {
+        List<Account> accounts = accountService.getAccounts();
+        log.info("Accounts retrieved: {}", accounts.size());
+        ModelResponse response = ModelResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .data(accounts)
+                .result("Success")
+                .build();
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(path = "/{id}")
+    public ResponseEntity<ModelResponse> getAccount(@PathVariable("id") String accountId) {
+        Account account = accountService.getAccount(accountId);
+        ModelResponse response = ModelResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .data(account)
+                .result("Success")
+                .build();
+        return ResponseEntity.ok().body(response);
     }
 }

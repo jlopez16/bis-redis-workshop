@@ -4,6 +4,7 @@ import com.example.demo.config.DatabaseCacheConfig;
 import com.example.demo.model.Account;
 import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
+    @CacheEvict(value = DatabaseCacheConfig.CACHE_NAME, key = "#id")
     public void deleteAccount(String id) {
         accountRepository.deleteById(id);
     }

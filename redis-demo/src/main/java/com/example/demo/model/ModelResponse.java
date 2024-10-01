@@ -1,16 +1,23 @@
 package com.example.demo.model;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Builder
-@ToString
 @Getter
 public class ModelResponse {
     private LocalDateTime timestamp;
     private Object data;
     private String result;
+
+    public ModelResponse(LocalDateTime timestamp, Object data, String result) {
+        this.timestamp = timestamp;
+        this.data = data;
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "ModelResponse(timestamp=" + timestamp + ", data=" + data + ", result=" + result+")";
+    }
 }

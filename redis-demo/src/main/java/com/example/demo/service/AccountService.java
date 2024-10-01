@@ -5,6 +5,7 @@ import com.example.demo.model.Account;
 import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,10 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    @Cacheable(cacheNames = DatabaseCacheConfig.CACHE_NAME, key = "#id")
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Cacheable(value = DatabaseCacheConfig.CACHE_NAME, key = "#id")
     public Account getAccount(String id) {
         try {
             Thread.sleep(5000);

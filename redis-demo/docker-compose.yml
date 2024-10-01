@@ -7,7 +7,7 @@ services:
     restart: always
     ports:
       - '6379:6379'
-    command: redis-server --loglevel warning --requirepass fusse
+    command: redis-server --loglevel warning
     networks:
       - fusse
   cassandra:

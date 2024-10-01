@@ -26,22 +26,15 @@ public class AccountController {
     public ResponseEntity<ModelResponse> getAccounts() {
         List<Account> accounts = accountService.getAccounts();
         log.info("Accounts retrieved: {}", accounts.size());
-        ModelResponse response = ModelResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .data(accounts)
-                .result("Success")
-                .build();
+        ModelResponse response = new ModelResponse(LocalDateTime.now(), accounts, "Success");
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping(path = "/{id}")
     public ResponseEntity<ModelResponse> getAccount(@PathVariable("id") String accountId) {
         Account account = accountService.getAccount(accountId);
-        ModelResponse response = ModelResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .data(account)
-                .result("Success")
-                .build();
+        log.info("Account retrieved: {}", account);
+        ModelResponse response = new ModelResponse(LocalDateTime.now(), account, "Success");
         return ResponseEntity.ok().body(response);
     }
 }

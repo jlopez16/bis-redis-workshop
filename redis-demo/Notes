@@ -1,0 +1,23 @@
+CREATE KEYSPACE ledger_keyspace
+WITH REPLICATION = {
+    'class': 'SimpleStrategy',
+    'replication_factor': 1
+};
+
+TRUNCATE ledger_keyspace.ledger;
+
+select count(*) from ledger_keyspace.ledger;
+
+
+CREATE TABLE IF NOT EXISTS ledger_keyspace.ledger (
+    accountId text,
+    assetType text,
+    currency text,
+    balance double,
+    PRIMARY KEY (accountId)
+);
+
+
+docker cp insert_ledger.cql cassandra-container:/insert_ledger.cql
+
+docker exec -it cassandra-container cqlsh -f /insert_ledger.cql
